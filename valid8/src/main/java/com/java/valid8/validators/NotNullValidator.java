@@ -7,16 +7,12 @@ import java.util.Objects;
 
 public class NotNullValidator implements Rule<Object> {
 
-    private final String field;
-
-    public NotNullValidator(String field) {
-        this.field = field;
-    }
+    public NotNullValidator() {}
 
     @Override
     public void validate(final Object value, final ValidationContext context) {
         if (Objects.isNull(value)) {
-            context.addError("The field '" + field + "' can't be null.");
+            context.addError("The value can't be null.");
         }
     }
 }
