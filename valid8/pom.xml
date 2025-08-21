@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.java.valid8</groupId>
+    <groupId>io.github.vijcoelho</groupId>
     <artifactId>valid8</artifactId>
     <version>1.0.0</version>
     <name>Valid8</name>
