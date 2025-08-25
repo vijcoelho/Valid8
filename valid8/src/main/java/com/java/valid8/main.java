@@ -35,7 +35,7 @@ public class main {
         final User userValido = new User(
                 String.valueOf(UUID.randomUUID()),
                 "98663315000113",
-                "59023517075",
+                "153.871.910-08",
                 "dae39i",
                 "dae39i@gmail.com",
                 "P$d173WE23s",
@@ -53,24 +53,5 @@ public class main {
             System.err.println("Validação de usuário VÁLIDO falhou. ❌");
             System.err.println("Erro: " + e.getMessage());
         }
-
-        final Validator<User> validator = Validator.of(userValido)
-                .requireNumber(User::age)
-                    .greaterThan(10)
-                    .done()
-                .requireString(User::email)
-                    .notBlank()
-                    .email()
-                    .done()
-                .requireDate(User::futureDate)
-                    .future()
-                    .notNull()
-                    .done()
-                .requireSecurity(User::cpf)
-                    .cpf()
-                    .notNull()
-                    .done();
-
-        validator.throwIfInvalid();
     }
 }

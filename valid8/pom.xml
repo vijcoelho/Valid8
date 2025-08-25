@@ -6,7 +6,7 @@
 
     <groupId>io.github.vijcoelho</groupId>
     <artifactId>valid8</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>Valid8</name>
     <description>A fluent validation library for Java with annotations.</description>

@@ -35,44 +35,38 @@ public class CNPJValidator implements Rule<Object> {
     }
 
     private boolean isAllDigitsEqual(final String cnpj) {
-        for (int i = 1; i < cnpj.length(); i++) {
-            if (cnpj.charAt(i) != cnpj.charAt(0)) {
-                return false;
-            }
-        }
-        return true;
+        return cnpj.matches("(\\d)\\1{13}");
     }
 
-    private Boolean isValid(final String cnpj) {
-        int firstSum = 0;
-        int secondSum = 0;
-        int firstDigit, secondDigit;
+    private boolean isValid(final String cnpj) {
+        int[] digits = new int[14];
+        for (int i = 0; i < 14; i++) {
+            digits[i] = Character.getNumericValue(cnpj.charAt(i));
+        }
 
+        int sum = 0;
         int[] firstWeights = {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
-        int[] secondWeights = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
-
         for (int i = 0; i < 12; i++) {
-            int digit = Character.getNumericValue(cnpj.charAt(i));
-            firstSum += digit * firstWeights[i];
+            sum += digits[i] * firstWeights[i];
+        }
+        int firstCalculatedDigit = 11 - (sum % 11);
+        if (firstCalculatedDigit > 9) {
+            firstCalculatedDigit = 0;
+        }
+        if (digits[12] != firstCalculatedDigit) {
+            return false;
         }
 
-        firstDigit = 11 - (firstSum % 11);
-        if (firstDigit > 9) {
-            firstDigit = 0;
-        }
-
+        sum = 0;
+        int[] secondWeights = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
         for (int i = 0; i < 13; i++) {
-            int digit = Character.getNumericValue(cnpj.charAt(i));
-            secondSum += digit * secondWeights[i];
+            sum += digits[i] * secondWeights[i];
         }
-
-        secondDigit = 11 - (secondSum % 11);
-        if (secondDigit > 9) {
-            secondDigit = 0;
+        int secondCalculatedDigit = 11 - (sum % 11);
+        if (secondCalculatedDigit > 9) {
+            secondCalculatedDigit = 0;
         }
-
-        return Character.getNumericValue(cnpj.charAt(12)) == firstDigit &&
-                Character.getNumericValue(cnpj.charAt(13)) == secondDigit;
+        return digits[13] == secondCalculatedDigit;
     }
 
 }

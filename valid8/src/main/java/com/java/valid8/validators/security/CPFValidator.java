@@ -23,32 +23,30 @@ public class CPFValidator implements Rule<Object> {
         }
     }
 
-    private Boolean isValid(final String cpf) {
+    private boolean isValid(final String cpf) {
+        int d1, d2;
+        int digit1, digit2;
 
-        int firstSum = 0, secondSum = 0, j = 0, z = 0, firstDigit = 0, secondDigit = 0;
-
-        for (int i = 10; i > 1; i--) {
-            firstSum += Character.getNumericValue(cpf.charAt(j)) * i;
-            j++;
+        int sum = 0;
+        int weight = 10;
+        for (int i = 0; i < 9; i++) {
+            sum += Character.getNumericValue(cpf.charAt(i)) * weight;
+            weight--;
         }
+        d1 = 11 - (sum % 11);
+        digit1 = (d1 == 10 || d1 == 11) ? 0 : d1;
 
-        firstDigit = 11 - (firstSum % 11);
-        if (firstDigit == 10 || firstDigit == 1) {
-            firstDigit = 0;
+        sum = 0;
+        weight = 11;
+        for (int i = 0; i < 10; i++) {
+            sum += Character.getNumericValue(cpf.charAt(i)) * weight;
+            weight--;
         }
+        d2 = 11 - (sum % 11);
+        digit2 = (d2 == 10 || d2 == 11) ? 0 : d2;
 
-        for (int i = 11; i > 1; i--) {
-            secondSum += Character.getNumericValue(cpf.charAt(j)) * i;
-            z++;
-        }
-
-        secondDigit = 11 - (secondSum % 11);
-        if (secondDigit == 10 || secondDigit == 1) {
-            secondDigit = 0;
-        }
-
-        return Character.getNumericValue(cpf.charAt(9)) == firstDigit &&
-                Character.getNumericValue(cpf.charAt(10)) == secondDigit;
+        return Character.getNumericValue(cpf.charAt(9)) == digit1 &&
+                Character.getNumericValue(cpf.charAt(10)) == digit2;
     }
 
 }
